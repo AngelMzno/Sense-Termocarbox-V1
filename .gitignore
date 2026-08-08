@@ -1,0 +1,27 @@
+# Build artifacts
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.d
+*.a
+*.lib
+
+# Build directories
+build/
+Debug/
+Release/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.ioc.bak
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~
