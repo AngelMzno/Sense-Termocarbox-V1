@@ -17,7 +17,7 @@ Tanque (CGA940, migración futura a CGA320) → Regulador etapa 1 (en tanque, aj
 
 ## Actuadores
 - **Resistencia de calentamiento:** 12V, 40W (integrada en hotend), driver MOSFET nivel lógico + protección térmica de hardware (fusible/corte térmico) independiente del software, en serie
-- **Electroválvula:** 12V DC, NC, 2/2 vías (evolución futura a 3/2 vías); candidatas: 2V025-08 (1/4" BSP) o 35A-ACA-DDBA-1BA (alta frecuencia, permite micropulsos a futuro)
+- **Electroválvula:** 12V DC, NC, 2/2 vías. Decisión: usar modelo simple 2V025-08 (1/4" BSP) para el diseño actual. Migración futura planeada a modelo de alta frecuencia 35A-ACA-DDBA-1BA (accionamiento piloto, 3 puertos, permite micropulsos de gas para control más fino de dosis en versiones futuras del firmware). Para el presupuesto de energía se considera el consumo de la versión de micropulsos (12.7W/12V ≈ 1.06A), no el de la versión simple, para dejar margen a la migración futura sin rediseñar la fuente de alimentación.
 
 ## Regulación de presión (dos etapas, por redundancia)
 1. Regulador en tanque (CGA940), ajustado a ~20 psi
@@ -37,9 +37,29 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 ~20 psi (etapa 1), no supera 50 psi; objetivo de salida libre: 4 L/min
 
 ## Pendientes de Bloque 1
-- 1.3: Interfaces (pantalla DWIN, pedal, buzzer)
-- 1.4: Alimentación (fuente de poder, aislamiento)
 - 1.5: Diagrama de bloques formal (gráfico)
 - 1.6: Mapeo de pines del STM32G431CBT6
 - Validar en banco de pruebas: presión real necesaria para 4 L/min, y comparación ARM5 vs RVUM6-6
 - Confirmar proveedor de CO2 grado médico con conexión CGA320 antes de migrar de CGA940
+
+## Interfaces (Bloque 1.3 — cerrado)
+
+**Pantalla:** DWIN DMG80480C070-04WTC, 7", 800x480, capacitiva, DGUS II/T5L0. Alimentación: 5V (4.5-5.5V), hasta 510mA con retroiluminación encendida, 170mA apagada. Fuente recomendada por fabricante: 5V 1A DC. Conector: 10 pines, paso 1.0mm.
+
+**Pedal:** switch mecánico simple, conector de 3 pines disponible (COM/NC/NO), se usa solo el contacto NO (normalmente abierto) hacia un GPIO del MCU con antirebote por firmware.
+
+**Buzzer:** pasivo (no activo), controlado por PWM desde un timer del STM32G431, para poder generar tonos distintos (no solo patrones de repetición) y así diferenciar los siguientes eventos: encendido, confirmación de comunicación pantalla-MCU, toque de botón en pantalla, inicio de sesión, inicio de aplicación/dosis, fin de sesión, y error/alarma.
+
+## Alimentación (Bloque 1.4 — cerrado)
+
+**Riel de 12V (fuente principal AC-DC, 110VAC de entrada):**
+- Fuente conmutada 12VDC, certificación UL, sin restricción de horas de uso (requisito: mínimo 10 horas continuas garantizadas — descarta fuentes clasificadas para máximo 8 horas)
+- Modelo de referencia: A-100FAN-12 (100W, 12V/8.5A)
+- Consumo estimado en el riel (peor caso, considerando electroválvula de micropulsos a futuro): hotend 3.33A + electroválvula 1.06A + reguladores downstream ~0.6-0.7A ≈ 5.0-5.1A total, ~40% de margen sobre la capacidad de la fuente
+- Pendiente para fase de producción: evaluar fuente con certificación IEC/UL 60601-1 (específica de equipo médico) en vez de UL general
+
+**Riel de 5V:** derivado del riel de 12V vía regulador step-down (buck), sin modelo/marca específico decidido aún. Especificación eléctrica requerida: entrada 12V, salida 5V ±5%, mínimo 1A de capacidad. Alimenta: pantalla DWIN.
+
+**Riel de 3.3V:** derivado del riel de 12V o 5V, sin modelo/marca específico decidido aún. Especificación eléctrica requerida: salida 3.3V ±3%. Alimenta: STM32G431CBT6 y sensores digitales. Corriente exacta pendiente de precisar en Bloque 1.6 (mapeo de pines).
+
+**Contacto con el paciente:** únicamente vía gas (aguja); no hay contacto eléctrico directo con el paciente. Nota a futuro (no implementada): posible función de RF en versiones futuras del equipo.
