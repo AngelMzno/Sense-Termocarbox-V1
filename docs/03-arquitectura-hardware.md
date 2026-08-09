@@ -63,3 +63,25 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 **Riel de 3.3V:** derivado del riel de 12V o 5V, sin modelo/marca específico decidido aún. Especificación eléctrica requerida: salida 3.3V ±3%. Alimenta: STM32G431CBT6 y sensores digitales. Corriente exacta pendiente de precisar en Bloque 1.6 (mapeo de pines).
 
 **Contacto con el paciente:** únicamente vía gas (aguja); no hay contacto eléctrico directo con el paciente. Nota a futuro (no implementada): posible función de RF en versiones futuras del equipo.
+
+## Mapeo de pines (Bloque 1.6 — cerrado)
+
+**Microcontrolador:** STM32G431CBT6, encapsulado LQFP48. Validado en STM32CubeMX (proyecto MCU directo, no template de Board, para evitar heredar asignaciones específicas de la placa NUCLEO-G431RB usada en prototipado).
+
+| Función | Pin | Configuración |
+|---|---|---|
+| UART pantalla HMI | PA9 (TX) / PA10 (RX) | USART1, modo Asynchronous |
+| PWM resistencia de calentamiento (hotend) | PA8 | TIM1_CH1 |
+| PWM buzzer pasivo | PA6 | TIM3_CH1 |
+| ADC sensor de presión | PA0 | ADC1_IN1, Single-ended |
+| ADC termistor NTC (hotend) | PA1 | ADC1_IN2, Single-ended |
+| 1-Wire sensor DS18B20 | PB0 | GPIO Output Open Drain, sin pull-up/pull-down |
+| Salida electroválvula (a driver MOSFET) | PB1 | GPIO Output Push-Pull |
+| Entrada pedal | PC13 | GPIO Input, con Pull-up interno (switch NO a tierra) |
+| Debug SWD | PA13 (SWDIO) / PA14 (SWCLK) | Reservado en modo "Serial Wire" |
+
+**Notas:**
+- El encapsulado LQFP48 no expone los puertos PC0-PC12, PD ni PE (disponibles solo en encapsulados más grandes) — el mapeo se concentra en PA/PB/PC13-15, que sí están disponibles.
+- Recursos usados: 1 de 4-6 UARTs disponibles, 2 de varios canales ADC, 2 de 14 timers — amplio margen para futuras adiciones (micropulsos de electroválvula, RF, voz).
+
+**Header de programación SWD (PCB final):** se incluirá un header de 4-5 pines (2.54mm, no el conector estándar ARM de 10 pines) con las señales SWDIO (PA13), SWCLK (PA14), GND, 3.3V, y NRST (opcional). Compatible con ST-LINK V2 externo. Es necesario tanto para desarrollo/depuración como para el primer flasheo de cada placa en producción (los chips salen de fábrica sin firmware).
