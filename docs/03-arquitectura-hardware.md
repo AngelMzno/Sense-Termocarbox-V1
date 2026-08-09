@@ -25,6 +25,14 @@ Tanque (CGA940, migración futura a CGA320) → Regulador etapa 1 (en tanque, aj
    - SMC ARM5SA-08-A (rango 1.5-100 psi, con manómetro, componente trazable/certificado)
    - Clon RVUM6-6 (equivalente económico para prototipo, sin certificación — no usar en producción sin evaluar alternativa certificada)
 
+## Decisión: no usar controlador de flujo másico (MFC)
+Se evaluó agregar un controlador de flujo másico (MFC) para regular el caudal de gas de forma activa, en vez de depender de presión regulada + calibración fija de posición de válvula/aguja. Se decidió NO incluirlo en este rediseño por las siguientes razones:
+- El enfoque actual (dos etapas de regulación de presión + calibración fija + sensor de presión que cruza contra el estado comandado de la válvula) ya cubre razonablemente el riesgo de dosis inconsistente por variación de presión.
+- Un MFC es significativamente más caro y complejo de integrar (electrónica de control propia, calibración de fábrica, comunicación digital) comparado con los componentes ya seleccionados.
+- Mientras el tanque tenga CO2 líquido, la presión interna se mantiene razonablemente estable, limitando el beneficio real de un MFC en este caso de uso.
+
+Queda como mejora futura a evaluar si las pruebas de banco muestran variación de dosis mayor a la aceptable.
+
 ## Presión de trabajo del sistema
 ~20 psi (etapa 1), no supera 50 psi; objetivo de salida libre: 4 L/min
 
