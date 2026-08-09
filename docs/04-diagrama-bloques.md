@@ -20,21 +20,21 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    MCU[STM32G431CBT6<br/>LQFP48]
+    MCU[STM32G431CBT6 LQFP48]
 
-    MCU -->|PA9/PA10 USART1| DISP[Pantalla HMI 7"<br/>DGUS II]
+    MCU -->|PA9/PA10 USART1| DISP[Pantalla HMI 7 pulg DGUS II]
     MCU -->|PA8 TIM1_CH1 PWM| DRV1[Driver MOSFET]
-    DRV1 --> HOT[Resistencia hotend<br/>12V/40W]
+    DRV1 --> HOT[Resistencia hotend 12V/40W]
     MCU -->|PA6 TIM3_CH1 PWM| BUZ[Buzzer pasivo]
     MCU -->|PA0 ADC1_IN1| PSEN[Sensor de presión]
     MCU -->|PA1 ADC1_IN2| NTC[Termistor NTC]
     MCU -->|PB0 1-Wire| DS[Sensor DS18B20]
     MCU -->|PB1 GPIO| DRV2[Driver MOSFET]
-    DRV2 --> VALV[Electroválvula 12V DC]
+    DRV2 --> VALV[Electrovalvula 12V DC]
     MCU -->|PC13 GPIO pull-up| PED[Pedal NO]
-    MCU -->|PA13/PA14 SWD| DBG[Header programación]
+    MCU -->|PA13/PA14 SWD| DBG[Header programacion]
 
-    PWR12[Fuente 12V<br/>A-100FAN-12] --> REG5[Regulador 5V]
+    PWR12[Fuente 12V A-100FAN-12] --> REG5[Regulador 5V]
     PWR12 --> REG33[Regulador 3.3V]
     PWR12 --> HOT
     PWR12 --> VALV
