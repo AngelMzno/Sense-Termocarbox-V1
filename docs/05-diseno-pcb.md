@@ -14,6 +14,12 @@ Oscilador interno HSI16 del STM32G431 (sin cristal externo) — suficiente preci
 - **Protección de entrada 12V:** diodo Schottky 1N5822 (THT, 3A) en serie, contra polaridad inversa
 - **Desacoplo del MCU:** 100nF cerámico en cada pin VDD + 1 capacitor bulk de 4.7-10µF. VDDA con 1µF + 100nF separados, con ferrita/inductor entre VDD y VDDA para aislar ruido digital de la parte analógica (crítico para lecturas limpias de ADC)
 
+**Decisiones de captura cerradas:**
+- VREF+ conectado a VDDA; no se usará referencia externa de ADC.
+- VBAT conectado a 3.3V; no se usará batería de respaldo.
+- LM1117T-3.3 con capacitor de entrada de 10µF entre +5V y GND, y capacitor de salida de 10µF entre 3.3V y GND, colocados cerca del regulador.
+- Módulo buck mini DC-DC ajustable configurado/soldado a 5V antes de instalar. Pinout capturado: EN, IN+, GND, V+. EN amarrado a +12V para operación siempre habilitada; IN+ a +12V; GND a GND; V+ a +5V.
+
 ## Drivers de potencia
 **MOSFET único para hotend y electroválvula:** IRLZ44N (TO-220, THT, nivel lógico) — mismo número de parte para ambos drivers, simplifica inventario de refacciones en campo.
 - Resistencia de gate: 100-220Ω (limita corriente de carga inicial desde el GPIO)
@@ -21,6 +27,10 @@ Oscilador interno HSI16 del STM32G431 (sin cristal externo) — suficiente preci
 - Electroválvula (carga inductiva): diodo flyback (1N4001 o equivalente) en paralelo con la bobina, para proteger el MOSFET del pico de voltaje inverso al apagar
 
 **Driver del buzzer pasivo:** BS170 (MOSFET canal N, TO-92/THT) — mismo criterio de bajo consumo estático que el resto de drivers MOSFET, controlado por PWM desde PA6 (TIM3_CH1)
+- Alimentación del buzzer desde +5V.
+- Resistencia de gate: 220Ω.
+- Resistencia pull-down en gate: 10kΩ.
+- Componente de referencia capturado: PS1240P02BT, buzzer piezoeléctrico pasivo THT.
 
 ## Acondicionamiento de señales analógicas
 

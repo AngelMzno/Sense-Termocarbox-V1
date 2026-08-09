@@ -48,7 +48,7 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 
 **Pedal:** switch mecánico simple, conector de 3 pines disponible (COM/NC/NO), se usa solo el contacto NO (normalmente abierto) hacia un GPIO del MCU con antirebote por firmware.
 
-**Buzzer:** pasivo (no activo), controlado por PWM desde un timer del STM32G431, para poder generar tonos distintos (no solo patrones de repetición) y así diferenciar los siguientes eventos: encendido, confirmación de comunicación pantalla-MCU, toque de botón en pantalla, inicio de sesión, inicio de aplicación/dosis, fin de sesión, y error/alarma.
+**Buzzer:** pasivo (no activo), controlado por PWM desde un timer del STM32G431, para poder generar tonos distintos (no solo patrones de repetición) y así diferenciar los siguientes eventos: encendido, confirmación de comunicación pantalla-MCU, toque de botón en pantalla, inicio de sesión, inicio de aplicación/dosis, fin de sesión, y error/alarma. Componente definido para captura: PS1240P02BT, piezoeléctrico pasivo THT, alimentado desde +5V y controlado desde PA6 (TIM3_CH1 PWM).
 
 ## Alimentación (Bloque 1.4 — cerrado)
 
@@ -83,5 +83,6 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 **Notas:**
 - El encapsulado LQFP48 no expone los puertos PC0-PC12, PD ni PE (disponibles solo en encapsulados más grandes) — el mapeo se concentra en PA/PB/PC13-15, que sí están disponibles.
 - Recursos usados: 1 de 4-6 UARTs disponibles, 2 de varios canales ADC, 2 de 14 timers — amplio margen para futuras adiciones (micropulsos de electroválvula, RF, voz).
+- No se usará batería de respaldo para VBAT; en la captura PCB VBAT se conecta a 3.3V.
 
 **Header de programación SWD (PCB final):** se incluirá un header de 4-5 pines (2.54mm, no el conector estándar ARM de 10 pines) con las señales SWDIO (PA13), SWCLK (PA14), GND, 3.3V, y NRST (opcional). Compatible con ST-LINK V2 externo. Es necesario tanto para desarrollo/depuración como para el primer flasheo de cada placa en producción (los chips salen de fábrica sin firmware).
