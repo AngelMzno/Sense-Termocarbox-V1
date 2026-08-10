@@ -27,3 +27,16 @@ Lista de materiales conforme se definan componentes específicos durante la capt
 | R_BUZZER_GATE | 1 | Resistencia axial THT metal film | 220Ω, 250mW | TBD | TBD | TBD | TBD | Serie en gate de BS170 |
 | BUZ1 | 1 | Buzzer piezoeléctrico pasivo THT, 12.2mm | 3V, 4kHz | TDK | PS1240P02BT | LCSC | C76871 | Alimentado desde +5V; validar en banco |
 | J_BUZZER | 1 | Header macho THT 1x2, paso 2.54mm | Buzzer 5V | TBD | HDR-M_2.54_1x2P | TBD | TBD | Conector interno para BUZ1 |
+| J_DWIN | 1 | Conector PH2.0 THT 8 pines | DWIN UART2 TTL/CMOS | BOOMELE | BX-PH2.0-8PZZ | LCSC | C18077750 | 1-2 GND, 3 RX4/NC, 4 RX2, 5 TX2, 6 TX4/NC, 7-8 +5V |
+| J_PEDAL | 1 | Bornera THT 3 pines, paso 5.08mm | COM/NC/NO | TBD | KF128-5.08-3P-AA | LCSC | C474953 | COM a GND, NO a PC13, NC sin conexión |
+| J_SWD | 1 | Header macho THT 1x5, paso 2.54mm | SWD + NRST | TBD | 2.54-1*5 | LCSC | C5156614 | 3V3, SWDIO, SWCLK, NRST, GND |
+| J_NTC_HOTEND | 1 | Header macho THT 1x2, paso 2.54mm | NTC hotend | TBD | HDR-M_2.54_1x2P | TBD | TBD | Compatible con Dupont 2P del hotend |
+| R_NTC_PULLUP | 1 | Resistencia axial THT metal film | 100kΩ, 1%, 250mW | CCO | TBD | LCSC | C119369 | Pull-up divisor NTC a 3V3 |
+| J_PRESSURE | 1 | Bornera THT 3 pines, paso 5.08mm | Sensor presión 5V | TBD | KF128-5.08-3P-AA | LCSC | C474953 | +5V, GND, PRESSURE_SIG_RAW |
+| R_PRESSURE_TOP | 1 | Resistencia axial THT metal film | 10kΩ, 1%, 250mW | VO | MF1/4W-10K±1%-ST52 | LCSC | C2903232 | Divisor sensor presión |
+| R_PRESSURE_BOT | 1 | Resistencia axial THT metal film | 15kΩ, 1%, 250mW | VO | TBD | LCSC | C2903263 | Divisor sensor presión |
+| R_PRESSURE_FILT | 1 | Resistencia axial THT metal film | 1kΩ, 250mW | TBD | TBD | TBD | TBD | Filtro RC hacia PA0 |
+| C_PRESSURE_FILT | 1 | Capacitor cerámico THT | 100nF | TBD | TBD | TBD | TBD | Filtro RC en PA0 |
+| D_PRESSURE_ZENER | 1 | Diodo zener THT | 1N4728ATR, 3.3V | TBD | 1N4728ATR | TBD | TBD | Protección ADC PA0; cátodo al pin ADC, ánodo a GND |
+| J_DS18B20 | 1 | Bornera THT 3 pines, paso 5.08mm | DS18B20 | TBD | KF128-5.08-3P-AA | LCSC | C474953 | 3V3, GND, DQ |
+| R_DS18B20_PULLUP | 1 | Resistencia axial THT metal film | 4.7kΩ, 1%, 250mW | CCO | TBD | LCSC | C119339 | Pull-up 1-Wire a 3V3 |

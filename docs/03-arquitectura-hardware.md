@@ -1,6 +1,6 @@
-# Arquitectura de hardware — Bloque 1 (en definición)
+# Arquitectura de hardware — Bloque 1
 
-**Documento:** ARQ-001 | **Revisión:** 00 | **Estado:** Borrador — sub-bloques 1.1 y 1.2 cerrados, 1.3-1.6 pendientes
+**Documento:** ARQ-001 | **Revisión:** 01 | **Estado:** Borrador — sub-bloques 1.1-1.6 cerrados; validaciones de banco pendientes
 
 ## Microcontrolador
 - STM32G431CBT6 (diseño final)
@@ -37,14 +37,12 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 ~20 psi (etapa 1), no supera 50 psi; objetivo de salida libre: 4 L/min
 
 ## Pendientes de Bloque 1
-- 1.5: Diagrama de bloques formal (gráfico)
-- 1.6: Mapeo de pines del STM32G431CBT6
 - Validar en banco de pruebas: presión real necesaria para 4 L/min, y comparación ARM5 vs RVUM6-6
 - Confirmar proveedor de CO2 grado médico con conexión CGA320 antes de migrar de CGA940
 
 ## Interfaces (Bloque 1.3 — cerrado)
 
-**Pantalla:** DWIN DMG80480C070-04WTC, 7", 800x480, capacitiva, DGUS II/T5L0. Alimentación: 5V (4.5-5.5V), hasta 510mA con retroiluminación encendida, 170mA apagada. Fuente recomendada por fabricante: 5V 1A DC. Conector: 10 pines, paso 1.0mm.
+**Pantalla:** DWIN DMG80480C070-04WTC, 7", 800x480, capacitiva, DGUS II/T5L0. Alimentación: 5V (4.5-5.5V), hasta 510mA con retroiluminación encendida, 170mA apagada. Fuente recomendada por fabricante: 5V 1A DC. Conector capturado: J_DWIN, BX-PH2.0-8PZZ, PH2.0 8 pines THT, UART2 TTL/CMOS; no requiere MAX232/MAX3232.
 
 **Pedal:** switch mecánico simple, conector de 3 pines disponible (COM/NC/NO), se usa solo el contacto NO (normalmente abierto) hacia un GPIO del MCU con antirebote por firmware.
 
@@ -86,3 +84,16 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 - No se usará batería de respaldo para VBAT; en la captura PCB VBAT se conecta a 3.3V.
 
 **Header de programación SWD (PCB final):** se incluirá un header de 4-5 pines (2.54mm, no el conector estándar ARM de 10 pines) con las señales SWDIO (PA13), SWCLK (PA14), GND, 3.3V, y NRST (opcional). Compatible con ST-LINK V2 externo. Es necesario tanto para desarrollo/depuración como para el primer flasheo de cada placa en producción (los chips salen de fábrica sin firmware).
+
+## Conectores capturados en esquemático
+
+| Conector | Función | Pinout / notas |
+|---|---|---|
+| J_DWIN | Pantalla DWIN 8P PH2.0 | 1-2 GND, 3 RX4/NC, 4 RX2 a PA9_HMI_TX, 5 TX2 a PA10_HMI_RX, 6 TX4/NC, 7-8 +5V. RX4/TX4 son NC intencionales. |
+| J_PEDAL | Pedal COM/NC/NO | COM a GND, NC sin conexión, NO a PC13_PEDAL_NO. PC13 usa pull-up interno; NO cierra a tierra. |
+| J_SWD | Programación/depuración SWD 1x5 | 3V3, PA13_SWDIO, PA14_SWCLK, NRST, GND. Compatible con ST-LINK V2 externo. |
+| J_HOTEND | Hotend 12V/40W | Pin 1 a +12V, pin 2 a HOTEND_DRAIN. Q_HOTEND IRLZ44N low-side; pull-down ubicado en nodo gate. |
+| J_NTC_HOTEND | Termistor NTC hotend | Divisor 3V3 -> R_NTC_PULLUP 100k -> PA1_NTC_ADC -> NTC a GND. Header 2.54mm por conector Dupont 2P del hotend. |
+| J_PRESSURE | Sensor de presión 5V | +5V, GND, PRESSURE_SIG_RAW. Acondicionamiento: divisor 10k/15k, filtro 1k/100nF y zener 1N4728ATR hacia GND. |
+| J_DS18B20 | Sensor DS18B20 roscado | 3V3, GND, PB0_DS18B20_1WIRE. Pull-up 4.7k a 3V3. |
+| J_BUZZER | Buzzer pasivo | Pin 1 a +5V, pin 2 a BUZZER_DRAIN. Q_BUZZER BS170 low-side; gate desde PA6_BUZZER_PWM. |

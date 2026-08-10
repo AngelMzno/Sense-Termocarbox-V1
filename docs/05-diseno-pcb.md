@@ -32,6 +32,17 @@ Oscilador interno HSI16 del STM32G431 (sin cristal externo) — suficiente preci
 - Resistencia pull-down en gate: 10kΩ.
 - Componente de referencia capturado: PS1240P02BT, buzzer piezoeléctrico pasivo THT.
 
+## Conectores capturados
+
+- **J_DWIN:** BX-PH2.0-8PZZ, PH2.0 8 pines THT, LCSC C18077750. UART2 TTL/CMOS directo a PA9/PA10; no se usa MAX232/MAX3232. Pines RX4/TX4 quedan NC intencionalmente.
+- **J_PEDAL:** KF128-5.08-3P-AA, bornera THT 3 pines. COM a GND, NC sin conexión, NO a PC13 con pull-up interno.
+- **J_SWD:** header macho THT 2.54mm 1x5, LCSC C5156614. Incluye 3V3, SWDIO, SWCLK, NRST y GND.
+- **J_HOTEND:** bornera THT 2 pines 5.08mm. Hotend entre +12V y drain de Q_HOTEND.
+- **J_NTC_HOTEND:** header macho THT 2.54mm 1x2. NTC 100K B3950 en divisor contra R_NTC_PULLUP 100k a 3V3.
+- **J_PRESSURE:** KF128-5.08-3P-AA, bornera THT 3 pines, LCSC C474953. +5V, GND y señal acondicionada hacia PA0.
+- **J_DS18B20:** KF128-5.08-3P-AA, bornera THT 3 pines. 3V3, GND y DQ con pull-up 4.7k a 3V3.
+- **J_BUZZER:** header macho THT 2.54mm 1x2. Buzzer alimentado desde +5V y conmutado por Q_BUZZER BS170.
+
 ## Acondicionamiento de señales analógicas
 
 **Sensor de presión (salida 5V → ADC 3.3V, PA0):**
