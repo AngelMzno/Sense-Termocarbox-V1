@@ -11,7 +11,9 @@
 - Warnings conocidos: algunos conectores THT no tienen modelo 3D vinculado; no afecta fabricación.
 
 ## Política de componentes
-MCU en SMD (obligatorio, no existe versión THT del STM32G431CBT6, encapsulado LQFP48). Todo lo demás (resistencias, capacitores, transistores/MOSFETs, diodos, reguladores) en THT por preferencia de facilidad de soldado y reparación en campo. Excepción justificada: conversión 12V→5V usa módulo buck prearmado (IC interno SMD, pero módulo completo con headers, reemplazable como componente THT) para evitar pérdidas de potencia significativas de un regulador lineal en ese salto de voltaje.
+MCU en SMD (obligatorio, no existe versión THT del STM32G431CBT6, encapsulado LQFP48). Todo lo demás (resistencias, capacitores, transistores/MOSFETs, diodos, reguladores) en THT por preferencia de facilidad de soldado y reparación en campo, salvo excepciones justificadas:
+- Conversión 12V→5V usa módulo buck prearmado (IC interno SMD, pero módulo completo con headers, reemplazable como componente THT) para evitar pérdidas de potencia significativas de un regulador lineal en ese salto de voltaje.
+- Capacitores cerámicos de desacoplo cercano del MCU en SMD 0603: C_VDD1, C_VDD2, C_VDD3, C_VDDA_100N y C_VDDA_1U. Esta excepción se justifica por integridad de señal y reducción de inductancia parásita: deben quedar lo más cerca posible de los pines VDD/VDDA del STM32G431CBT6 para filtrar ruido de alta frecuencia. No aplica al capacitor bulk C_BULK_3V3, que se mantiene THT.
 
 ## Fuente de reloj
 Oscilador interno HSI16 del STM32G431 (sin cristal externo) — suficiente precisión para USART, PWM y ADC de esta aplicación; reduce componentes y puntos de falla mecánica frente a un cristal externo.
@@ -20,7 +22,7 @@ Oscilador interno HSI16 del STM32G431 (sin cristal externo) — suficiente preci
 - **12V → 5V:** módulo buck prearmado (tipo MP1584EN o LM2596), mínimo 1A de salida
 - **5V → 3.3V:** LM1117T-3.3 (LDO fijo, TO-220/THT). Se descartó LM317 por dropout insuficiente (2-3V típico) frente al margen disponible de solo 1.7V (5V-3.3V)
 - **Protección de entrada 12V:** diodo Schottky 1N5822 (THT, 3A) en serie, contra polaridad inversa
-- **Desacoplo del MCU:** 100nF cerámico en cada pin VDD + 1 capacitor bulk de 4.7-10µF. VDDA con 1µF + 100nF separados, con ferrita/inductor entre VDD y VDDA para aislar ruido digital de la parte analógica (crítico para lecturas limpias de ADC)
+- **Desacoplo del MCU:** 100nF cerámico SMD 0603 en cada pin VDD + 1 capacitor bulk THT de 4.7-10µF. VDDA con 1µF SMD 0603 + 100nF SMD 0603 separados, con ferrita/inductor entre VDD y VDDA para aislar ruido digital de la parte analógica (crítico para lecturas limpias de ADC)
 
 **Decisiones de captura cerradas:**
 - VREF+ conectado a VDDA; no se usará referencia externa de ADC.
