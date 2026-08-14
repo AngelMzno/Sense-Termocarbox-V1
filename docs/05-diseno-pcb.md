@@ -1,6 +1,14 @@
 # Diseño de PCB — Bloque 2
 
-**Documento:** PCB-001 | **Revisión:** 00 | **Estado:** Especificación previa a captura — herramienta: EasyEDA Pro
+**Documento:** PCB-001 | **Revisión:** 01 | **Estado:** Layout completado para revisión Gerber — herramienta: EasyEDA Pro
+
+## Estado del layout
+- Esquemático capturado en EasyEDA Pro.
+- PCB ruteada en 2 capas, con plano GND inferior.
+- DRC sin fatal errors ni errores eléctricos.
+- Ratlines revisadas sin conexiones pendientes.
+- Gerber/Drill exportado como `hardware/Gerber_PCB1_2026-08-14.zip` para revisión previa a fabricación.
+- Warnings conocidos: algunos conectores THT no tienen modelo 3D vinculado; no afecta fabricación.
 
 ## Política de componentes
 MCU en SMD (obligatorio, no existe versión THT del STM32G431CBT6, encapsulado LQFP48). Todo lo demás (resistencias, capacitores, transistores/MOSFETs, diodos, reguladores) en THT por preferencia de facilidad de soldado y reparación en campo. Excepción justificada: conversión 12V→5V usa módulo buck prearmado (IC interno SMD, pero módulo completo con headers, reemplazable como componente THT) para evitar pérdidas de potencia significativas de un regulador lineal en ese salto de voltaje.
@@ -35,13 +43,14 @@ Oscilador interno HSI16 del STM32G431 (sin cristal externo) — suficiente preci
 ## Conectores capturados
 
 - **J_DWIN:** BX-PH2.0-8PZZ, PH2.0 8 pines THT, LCSC C18077750. UART2 TTL/CMOS directo a PA9/PA10; no se usa MAX232/MAX3232. Pines RX4/TX4 quedan NC intencionalmente.
-- **J_PEDAL:** KF128-5.08-3P-AA, bornera THT 3 pines. COM a GND, NC sin conexión, NO a PC13 con pull-up interno.
+- **J_PEDAL:** bornera THT 2 pines paso 5.08mm. Un pin a GND/COM y el otro a PC13_PEDAL_NO con pull-up interno.
 - **J_SWD:** header macho THT 2.54mm 1x5, LCSC C5156614. Incluye 3V3, SWDIO, SWCLK, NRST y GND.
 - **J_HOTEND:** bornera THT 2 pines 5.08mm. Hotend entre +12V y drain de Q_HOTEND.
 - **J_NTC_HOTEND:** header macho THT 2.54mm 1x2. NTC 100K B3950 en divisor contra R_NTC_PULLUP 100k a 3V3.
 - **J_PRESSURE:** KF128-5.08-3P-AA, bornera THT 3 pines, LCSC C474953. +5V, GND y señal acondicionada hacia PA0.
 - **J_DS18B20:** KF128-5.08-3P-AA, bornera THT 3 pines. 3V3, GND y DQ con pull-up 4.7k a 3V3.
 - **J_BUZZER:** header macho THT 2.54mm 1x2. Buzzer alimentado desde +5V y conmutado por Q_BUZZER BS170.
+- **J_TEST:** PH2.0 8 pines THT para medicion de banco. Pinout: 1 GND, 2 +12V, 3 +5V, 4 3V3, 5 PA0_PRESSURE_ADC, 6 PA1_NTC_ADC, 7 PB0_DS18B20_1WIRE, 8 PC13_PEDAL_NO. Serigrafia abreviada: GND, 12V, 5V, 3V3, PRESS, NTC, DS18, PED.
 
 ## Acondicionamiento de señales analógicas
 

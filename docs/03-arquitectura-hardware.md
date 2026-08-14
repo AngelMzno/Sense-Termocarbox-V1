@@ -44,7 +44,7 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 
 **Pantalla:** DWIN DMG80480C070-04WTC, 7", 800x480, capacitiva, DGUS II/T5L0. Alimentación: 5V (4.5-5.5V), hasta 510mA con retroiluminación encendida, 170mA apagada. Fuente recomendada por fabricante: 5V 1A DC. Conector capturado: J_DWIN, BX-PH2.0-8PZZ, PH2.0 8 pines THT, UART2 TTL/CMOS; no requiere MAX232/MAX3232.
 
-**Pedal:** switch mecánico simple, conector de 3 pines disponible (COM/NC/NO), se usa solo el contacto NO (normalmente abierto) hacia un GPIO del MCU con antirebote por firmware.
+**Pedal:** switch mecánico simple por bornera de 2 pines (COM/NO). COM va a GND y NO va a PC13 con pull-up interno; antirebote por firmware.
 
 **Buzzer:** pasivo (no activo), controlado por PWM desde un timer del STM32G431, para poder generar tonos distintos (no solo patrones de repetición) y así diferenciar los siguientes eventos: encendido, confirmación de comunicación pantalla-MCU, toque de botón en pantalla, inicio de sesión, inicio de aplicación/dosis, fin de sesión, y error/alarma. Componente definido para captura: PS1240P02BT, piezoeléctrico pasivo THT, alimentado desde +5V y controlado desde PA6 (TIM3_CH1 PWM).
 
@@ -90,7 +90,7 @@ Queda como mejora futura a evaluar si las pruebas de banco muestran variación d
 | Conector | Función | Pinout / notas |
 |---|---|---|
 | J_DWIN | Pantalla DWIN 8P PH2.0 | 1-2 GND, 3 RX4/NC, 4 RX2 a PA9_HMI_TX, 5 TX2 a PA10_HMI_RX, 6 TX4/NC, 7-8 +5V. RX4/TX4 son NC intencionales. |
-| J_PEDAL | Pedal COM/NC/NO | COM a GND, NC sin conexión, NO a PC13_PEDAL_NO. PC13 usa pull-up interno; NO cierra a tierra. |
+| J_PEDAL | Pedal COM/NO | COM a GND, NO a PC13_PEDAL_NO. PC13 usa pull-up interno; NO cierra a tierra. |
 | J_SWD | Programación/depuración SWD 1x5 | 3V3, PA13_SWDIO, PA14_SWCLK, NRST, GND. Compatible con ST-LINK V2 externo. |
 | J_HOTEND | Hotend 12V/40W | Pin 1 a +12V, pin 2 a HOTEND_DRAIN. Q_HOTEND IRLZ44N low-side; pull-down ubicado en nodo gate. |
 | J_NTC_HOTEND | Termistor NTC hotend | Divisor 3V3 -> R_NTC_PULLUP 100k -> PA1_NTC_ADC -> NTC a GND. Header 2.54mm por conector Dupont 2P del hotend. |
